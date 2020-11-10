@@ -1,0 +1,32 @@
+<%= form_with(model: password, local: true) do |form| %>
+  <% if password.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(password.errors.count, "error") %> prohibited this password from being saved:</h2>
+
+      <ul>
+        <% password.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :login %>
+    <%= form.text_field :login %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password %>
+    <%= form.text_field :password %>
+  </div>
+
+  <div class="field">
+    <%= form.label :site %>
+    <%= form.text_field :site %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

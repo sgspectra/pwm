@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Login:</strong>
+  <%= @password.login %>
+</p>
+
+<p>
+  <strong>Password:</strong>
+  <%= @password.password %>
+</p>
+
+<p>
+  <strong>Site:</strong>
+  <%= @password.site %>
+</p>
+
+<%= link_to 'Edit', edit_password_path(@password) %> |
+<%= link_to 'Back', passwords_path %>
