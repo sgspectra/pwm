@@ -4,7 +4,7 @@ class PasswordsController < ApplicationController
   # GET /passwords
   # GET /passwords.json
   def index
-    @passwords = Password.all
+    @passwords = Password.where(:user_id => current_user.id)
   end
 
   # GET /passwords/1
@@ -69,6 +69,6 @@ class PasswordsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def password_params
-      params.require(:password).permit(:login, :password, :site)
+      params.require(:password).permit(:login, :password, :site, :user_id)
     end
 end
