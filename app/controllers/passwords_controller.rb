@@ -1,5 +1,5 @@
 class PasswordsController < ApplicationController
-  before_action :set_password, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!,:set_password, only: [:show, :edit, :update, :destroy]
 
   # GET /passwords
   # GET /passwords.json
@@ -10,6 +10,13 @@ class PasswordsController < ApplicationController
   # GET /passwords/1
   # GET /passwords/1.json
   def show
+    current_user_id = current_user.id
+    password_user_id = Password.find(params[:id]).user_id
+    if current_user_id == password_user_id
+      @password = Password.find(params[:id])
+    else
+      render 'passwords/fail'
+    end
   end
 
   # GET /passwords/new
