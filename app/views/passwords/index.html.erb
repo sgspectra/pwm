@@ -1,31 +1,33 @@
-<p id="notice"><%= notice %></p>
+<div class="page">
+  <p id="notice"><%= notice %></p>
 
-<h1>Passwords</h1>
+  <h1>Passwords</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Login</th>
-      <th>Password</th>
-      <th>Site</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @passwords.each do |password| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= password.login %></td>
-        <td><%= password.password %></td>
-        <td><%= password.site %></td>
-        <td><%= link_to 'Show', password %></td>
-        <td><%= link_to 'Edit', edit_password_path(password) %></td>
-        <td><%= link_to 'Destroy', password, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Site</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @passwords.each do |password| %>
+        <tr>
+          <td><%= password.login %></td>
+          <td><%= password.password %></td>
+          <td><%= password.site %></td>
+          <td id="short"><%= link_to 'Show', password %></td>
+          <td id="short"><%= link_to 'Edit', edit_password_path(password) %></td>
+          <td id="short"><%= link_to 'Destroy', password, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<%= link_to 'New Password', new_password_path %>
+  <br>
+
+  <%= link_to 'New Password', new_password_path %>
+</div>
