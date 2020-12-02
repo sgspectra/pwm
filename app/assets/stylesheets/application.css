@@ -13,3 +13,21 @@
  *= require_tree .
  *= require_self
  */
+
+ .logsign {
+
+    background-color: lightgrey;
+    margin: 0 auto;
+    width: 20%;
+    border: 3px solid grey;
+    border-radius: 25px;
+    padding: 10px;
+    text-align: center;
+
+ }
+
+ .field {
+
+    line-height: 1.2em;
+
+ }
