@@ -49,8 +49,9 @@ class PasswordsController < ApplicationController
       $l_alphabet.clear if password_params[:lowercase] == '1'
       $digits.clear if password_params[:digits] == '1'
       $symbols.clear if password_params[:symbols] == '1'
+      e_set = password_params[:exclude]
       # create the new password
-      pass = generate_password(len, '')
+      pass = generate_password(len, e_set)
       score, rank = strength_check(pass)
 
       @password = Password.new(login: password_params[:login], password: pass, site: password_params[:site],
@@ -99,68 +100,56 @@ class PasswordsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_password
-      @password = Password.find(params[:id])
-    end
+  
+  # Use callbacks to share common setup or constraints between actions.
+  def set_password
+    @password = Password.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def password_params
-      params.require(:password).permit(:login, :password, :site, :user_id, :generate, :uppercase, :lowercase, :symbols, :digits, :strength, :length)
-    end
+  # Only allow a list of trusted parameters through.
+  def password_params
+    params.require(:password).permit(:login, :password, :site, :user_id, :generate, :uppercase, :lowercase,
+                                     :symbols, :digits, :strength, :length, :exclude)
+  end
 
-    def generate_password(length, e_chars)
-      charset = $l_alphabet + $u_alphabet + $digits + $symbols
-      if (!e_chars.nil?)
-       charset -= e_chars.split('')
-      end
-      Array.new(Integer(length)) { charset.sample }.join
-    end
+  def generate_password(length, e_chars)
+    charset = $l_alphabet + $u_alphabet + $digits + $symbols
+    charset -= e_chars.split('') unless (e_chars.nil?)
+    Array.new(Integer(length)) { charset.sample }.join
+  end
 
   def strength_check(password)
     score = 0
     password_set = password.split('')
-    if password.size < 12
-      score = -50
-    else
-      score = password.size
-    end
-    if password_set =~ /^[A-Z]+$/i
-      score -= 25
-    end
-    if password_set =~ /^\d+$/
-      score -= 25
-    end
-    if (password_set & $symbols).size > 0
-      score += 25
-    end
-    if (password_set & $l_alphabet).size > 0
-      score += 20
-    end
-    if (password_set & $u_alphabet).size > 0
-      score += 20
-    end
-    if (password_set & $digits).size > 0
-      score += 25
-    end
+    score = if password.size < 12
+              -50
+            else
+              password.size
+            end
+    score -= 25 if password_set =~ /^[A-Z]+$/i
+    score -= 25 if password_set =~ /^\d+$/
+    score += 25 if (password_set & $symbols).size > 0
+    score += 20 if (password_set & $l_alphabet).size > 0
+    score += 20 if (password_set & $u_alphabet).size > 0
+    score += 25 if (password_set & $digits).size > 0
 
     rank = nil
-    case
+    rank = case
     when score >= 100
-      rank = 'big brain'
+      'big brain'
     when score.between?(85, 100)
-      rank = 'very strong'
+      'very strong'
     when score.between?(60, 85)
-      rank = 'strong'
+      'strong'
     when score.between?(45, 60)
-      rank = 'alright'
+      'alright'
     when score.between?(0, 45)
-      rank = 'weak'
+      'weak'
     when (password_set.difference($symbols)).size == 0
-      rank = 'unstable'
+      'unstable'
     else
-      rank = 'pathetic'
-    end
+      'pathetic'
+           end
     return score, rank
   end
 end
