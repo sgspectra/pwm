@@ -1,3 +1,22 @@
 // Place all the styles related to the static controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+body {
+    background-color: #d15656;
+}
+
+.welcome {
+    background-color: lightgrey;
+    margin: 0 auto;
+    width: 20%;
+    border: 3px solid grey;
+    border-radius: 25px;
+    padding: 10px;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    text-align: center;
+    line-height: 50px;
+}
+

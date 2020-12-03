@@ -1,3 +1,4 @@
+<div class="form">
 <%= form_with(model: password, local: true) do |form| %>
   <% if password.errors.any? %>
     <div id="error_explanation">
@@ -35,3 +36,5 @@
     <%= form.submit %>
   </div>
 <% end %>
+
+</div>
