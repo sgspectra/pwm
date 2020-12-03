@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_10_215409) do
+ActiveRecord::Schema.define(version: 2020_12_02_221313) do
 
   create_table "passwords", force: :cascade do |t|
     t.string "login"
@@ -19,6 +19,13 @@ ActiveRecord::Schema.define(version: 2020_11_10_215409) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id"
+    t.boolean "generate"
+    t.boolean "uppercase"
+    t.boolean "lowercase"
+    t.boolean "symbols"
+    t.boolean "digits"
+    t.string "length"
+    t.string "strength"
   end
 
   create_table "users", force: :cascade do |t|
