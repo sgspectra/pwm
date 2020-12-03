@@ -59,7 +59,12 @@ class PasswordsController < ApplicationController
                                symbols: password_params[:symbols], digits: password_params[:digits],
                                length: len, strength: score)
     else
-      @password = Password.new(password_params)
+      score, rank = strength_check(password_params[:password])
+      @password = Password.new(login: password_params[:login], password: password_params[:password], site: password_params[:site],
+                               user_id: password_params[:user_id], generate: password_params[:generate],
+                               uppercase: password_params[:uppercase], lowercase: password_params[:lowercase],
+                               symbols: password_params[:symbols], digits: password_params[:digits],
+                               length: password_params[:password].length, strength: score)
     end
 
 
