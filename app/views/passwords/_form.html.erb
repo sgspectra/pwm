@@ -20,6 +20,36 @@
     <%= form.label :password %>
     <%= form.password_field :password %>
   </div>
+  <p>Select "Generate" to auto generate a password</p>
+  <div>
+    <%= form.label :generate %>
+    <%= form.check_box :generate %>
+  </div>
+
+  <div>
+    <%= form.label :length %>
+    <%= form.text_field :length %>
+  </div>
+  <p>To exlcude a class of characters from your password, select it</p>
+  <div class="field">
+    <%= form.label :lowercase %>
+    <%= form.check_box :lowercase %>
+  </div>
+
+  <div class="field">
+    <%= form.label :uppercase %>
+    <%= form.check_box :uppercase %>
+  </div>
+
+  <div class="field">
+    <%= form.label :digits %>
+    <%= form.check_box :digits %>
+  </div>
+
+  <div class="field">
+    <%= form.label :symbols %>
+    <%= form.check_box :symbols %>
+  </div>
 
   <div class="field">
     <%= form.label :site %>

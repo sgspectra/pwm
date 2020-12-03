@@ -1,6 +1,11 @@
 class PasswordsController < ApplicationController
   before_action :authenticate_user!,:set_password, only: [:show, :edit, :update, :destroy]
 
+  # Generate the alphabets
+  $l_alphabet = ('a'..'z').to_a
+  $u_alphabet = ('A'..'Z').to_a
+  $digits = ('0'..'9').to_a
+  $symbols = (' !"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~').split('')
   # GET /passwords
   # GET /passwords.json
   def index
@@ -31,7 +36,32 @@ class PasswordsController < ApplicationController
   # POST /passwords
   # POST /passwords.json
   def create
-    @password = Password.new(password_params)
+    # if the user has selected to generate a password
+    if password_params[:generate] == '1'
+      # get the length the user selected default 32
+      len = if password_params[:length].blank?
+              32
+            else
+              password_params[:length]
+            end
+      # check what the user has selected for the inclusion options
+      $u_alphabet.clear if password_params[:uppercase] == '1'
+      $l_alphabet.clear if password_params[:lowercase] == '1'
+      $digits.clear if password_params[:digits] == '1'
+      $symbols.clear if password_params[:symbols] == '1'
+      # create the new password
+      pass = generate_password(len, '')
+      score, rank = strength_check(pass)
+
+      @password = Password.new(login: password_params[:login], password: pass, site: password_params[:site],
+                               user_id: password_params[:user_id], generate: password_params[:generate],
+                               uppercase: password_params[:uppercase], lowercase: password_params[:lowercase],
+                               symbols: password_params[:symbols], digits: password_params[:digits],
+                               length: len, strength: score)
+    else
+      @password = Password.new(password_params)
+    end
+
 
     respond_to do |format|
       if @password.save
@@ -76,6 +106,61 @@ class PasswordsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def password_params
-      params.require(:password).permit(:login, :password, :site, :user_id)
+      params.require(:password).permit(:login, :password, :site, :user_id, :generate, :uppercase, :lowercase, :symbols, :digits, :strength, :length)
     end
+
+    def generate_password(length, e_chars)
+      charset = $l_alphabet + $u_alphabet + $digits + $symbols
+      if (!e_chars.nil?)
+       charset -= e_chars.split('')
+      end
+      Array.new(Integer(length)) { charset.sample }.join
+    end
+
+  def strength_check(password)
+    score = 0
+    password_set = password.split('')
+    if password.size < 12
+      score = -50
+    else
+      score = password.size
+    end
+    if password_set =~ /^[A-Z]+$/i
+      score -= 25
+    end
+    if password_set =~ /^\d+$/
+      score -= 25
+    end
+    if (password_set & $symbols).size > 0
+      score += 25
+    end
+    if (password_set & $l_alphabet).size > 0
+      score += 20
+    end
+    if (password_set & $u_alphabet).size > 0
+      score += 20
+    end
+    if (password_set & $digits).size > 0
+      score += 25
+    end
+
+    rank = nil
+    case
+    when score >= 100
+      rank = 'big brain'
+    when score.between?(85, 100)
+      rank = 'very strong'
+    when score.between?(60, 85)
+      rank = 'strong'
+    when score.between?(45, 60)
+      rank = 'alright'
+    when score.between?(0, 45)
+      rank = 'weak'
+    when (password_set.difference($symbols)).size == 0
+      rank = 'unstable'
+    else
+      rank = 'pathetic'
+    end
+    return score, rank
+  end
 end
