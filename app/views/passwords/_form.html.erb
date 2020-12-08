@@ -32,6 +32,10 @@
     <%= form.text_field :length %>
   </div>
   <p>To exlcude a class of characters from your password, select it</p>
+    <div class="field">
+      <%= form.label :exclude %>
+      <%= form.text_field :exclude %>
+    </div>
   <div class="field">
     <%= form.label :lowercase %>
     <%= form.check_box :lowercase %>

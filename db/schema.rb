@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_02_221313) do
+ActiveRecord::Schema.define(version: 2020_12_03_031706) do
 
   create_table "passwords", force: :cascade do |t|
     t.string "login"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2020_12_02_221313) do
     t.boolean "digits"
     t.string "length"
     t.string "strength"
+    t.string "exclude"
   end
 
   create_table "users", force: :cascade do |t|
