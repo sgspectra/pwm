@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_03_031706) do
+ActiveRecord::Schema.define(version: 2020_12_08_212822) do
 
   create_table "passwords", force: :cascade do |t|
     t.string "login"
@@ -39,6 +39,9 @@ ActiveRecord::Schema.define(version: 2020_12_03_031706) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "first_name"
     t.string "last_name"
+    t.integer "failed_attempts", default: 0
+    t.string "unlock_token"
+    t.datetime "locked_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
