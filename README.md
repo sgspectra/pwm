@@ -1,24 +1,32 @@
-# README
+# Uncrackable Buckeye Password Manager
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Final Project for OSU CSE 5473, Autumn 2020
 
-Things you may want to cover:
+## Summary: 
+The Uncrackable Buckeye Password Manager is a basic web-based password manager built using Ruby on Rails.
 
-* Ruby version
+## Features: 
+* Secure login
+* Password storage
+* New password generation
+* Password strength checking
 
-* System dependencies
+## Dependencies: 
+* Ruby 2.6.3
 
-* Configuration
+## Usage: 
 
-* Database creation
+On first startup, run: 
+```
+bundle install
+```
 
-* Database initialization
+To start the web-server, in console type:
+```
+rails server
+```
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+If asked, use the following command before startup: 
+```
+rails db:migrate
+```
